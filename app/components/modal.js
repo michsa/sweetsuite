@@ -4,6 +4,7 @@ import { closeModal } from '../actions'
 
 import LogInForm from './log-in'
 import CreateAccountForm from './create-account'
+import SuccessForm from './success'
   
 /* ----------- * 
  *  COMPONENT  * 
@@ -17,7 +18,8 @@ const ModalComponent = ({modal, close}) => {
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
 
             { modal == 'login' ? <LogInForm/> :
-              modal == 'register' ? <CreateAccountForm/> : ""
+              modal == 'register' ? <CreateAccountForm/> :
+             modal == 'success' ? <SuccessForm/> : ""
             }
             
           </div>
