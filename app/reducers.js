@@ -150,7 +150,14 @@ const reducers = (state = {}, action) => {
     case 'SET_MODAL':
       return generateState({
         modal: action.modal,
+        // so the error message won't show up 
+        // next time we open a modal
         error: null
+      })
+      
+    case 'TOGGLE_MENU':
+      return generateState({
+        menuOpen: action.value
       })
     
     default:

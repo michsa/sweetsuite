@@ -3,6 +3,7 @@ import React from 'react'
 import HeaderContainer from './header'
 import FooterComponent from './footer'
 import BodyContainer from './body'
+import MenuContainer from "./menu"
 import ModalContainer from './modal'
 
 import {connect} from 'react-redux'
@@ -21,7 +22,7 @@ const AppComponent = () => {
         <BodyContainer/>
         <FooterComponent/>
       </div>
-      
+      <MenuContainer/>
       <ModalContainer/>
     </div>
   )

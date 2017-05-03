@@ -4,14 +4,14 @@ import logo from "../img/title_small.png"
 import menu from "../img/menu.png"
 
 import {connect} from 'react-redux'
-import {logOut, openModal} from '../actions'
+import {logOut, openModal, openMenu } from '../actions'
 
 
 /* ----------- *
  *  COMPONENT  *
  * ----------- */
 
-const HeaderComponent = ({isLoggedIn, name, accessModal, logOut }) => { 
+const HeaderComponent = ({isLoggedIn, name, accessModal, logOut, toggleMenu }) => { 
   
   var style = {
     backgroundImage: 'url("' + logo + '")'
@@ -19,19 +19,21 @@ const HeaderComponent = ({isLoggedIn, name, accessModal, logOut }) => {
   
   return (
     <div id="header" className="header">
-      <div className="menu"><img src={menu} /> Menu</div>
+      <div className="menu" onClick={toggleMenu}>
+        <img src={menu} /> Menu
+      </div>
       <div className="logo">
         <a href="/"><img src={logo} /></a>
       </div>
-        { isLoggedIn ?
-          <div className="welcome">
-            <span>Welcome {name}</span> · <span onClick={logOut}>Log Out</span>
-          </div>
-          :
-          <div className="welcome">
-            <span onClick={() => accessModal('login')}>Sign In</span> / <span onClick={() => accessModal('register')}>Sign Up</span>
-          </div>
-        }
+      { isLoggedIn ?
+        <div className="welcome">
+          <span>Welcome {name}</span> · <span onClick={logOut}>Log Out</span>
+        </div>
+        :
+        <div className="welcome">
+          <span onClick={() => accessModal('login')}>Sign In</span> / <span onClick={() => accessModal('register')}>Sign Up</span>
+        </div>
+      }
     </div>
   )
 }
@@ -55,6 +57,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     accessModal: function (modal) {
       dispatch(openModal(modal))
+    },
+    toggleMenu: function () {
+      dispatch(openMenu())
     }
   }
 }

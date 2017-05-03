@@ -19,7 +19,7 @@ const ModalComponent = ({modal, close}) => {
 
             { modal == 'login' ? <LogInForm/> :
               modal == 'register' ? <CreateAccountForm/> :
-             modal == 'success' ? <SuccessForm/> : ""
+              modal == 'success' ? <SuccessForm/> : ""
             }
             
           </div>

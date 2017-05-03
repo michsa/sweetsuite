@@ -126,11 +126,16 @@ export const closeModal = () => {
   }
 }
 
+export const closeMenu = () => { return {type: 'TOGGLE_MENU', value: false}}
+
+export const openMenu = () => { return {type: 'TOGGLE_MENU', value: true}}
+
+
 export const createAccount = (values) => {
   return function (dispatch) {
 
     if (values.pw != values.pw2) {  
-      dispatch(fulfillRegister({success: false, message: "Error: passwords did not match."}))
+      dispatch(registerFailure({success: false, message: "Error: passwords did not match."}))
       return
     }
     else {
