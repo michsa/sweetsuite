@@ -20,7 +20,7 @@ const LogInComponent = ({handleSubmit, submit}) => {
               <Field component='input' type='text' name="email" placeholder="Email Address"/>  
             </div>  
             <div className="password">
-              <Field component='input' type='text' name="pw" placeholder="Password"/>  
+              <Field component='input' type='password' name="pw" placeholder="Password"/>  
             </div>
             <button type='submit' className='btn'>Sign In</button>
           </form> 

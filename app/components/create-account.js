@@ -26,10 +26,10 @@ const CreateAccountComponent = ({handleSubmit, submit}) => {
               <Field component='input' type='text' name="email" placeholder="Email Address"/>  
             </div>  
             <div className="password">  
-              <Field component='input' type='text' name="pw" placeholder="Password"/>  
+              <Field component='input' type='password' name="pw" placeholder="Password"/>  
             </div>  
             <div className="password2">
-              <Field component='input' type='text' name="pw2" placeholder="Confirm Password"/>  
+              <Field component='input' type='password' name="pw2" placeholder="Confirm Password"/>  
             </div>
             <button type='submit' className='btn'>Sign Up</button>
           </form>
