@@ -5,12 +5,13 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { createListing, addImage } from '../actions'
+import {logOut, openModal} from '../actions'
 
 /* ----------- *
  *  COMPONENT  *
  * ----------- */
  
-const CreateListingComponent = ({handleSubmit, submit, uploadImage, images}) => {
+const CreateListingComponent = ({handleSubmit, submit, uploadImage, images, accessModal}) => {
   return (
       <div id="create" className="create-listing">
         <div className="title">Add New Apartment Listing</div>      
@@ -56,7 +57,7 @@ const CreateListingComponent = ({handleSubmit, submit, uploadImage, images}) => 
             <div className="img" >
               <input type="file" name="img" onChange={uploadImage} />
             </div>
-            <button type='submit' className='btn'>Submit</button>
+            <button type='submit' className='btn' onClick={() => accessModal('success')}>Submit</button>
           </form>
           
           <div className="images">
@@ -90,7 +91,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     uploadImage: function (event) {
       let file = event.target.files[0]
       dispatch(addImage(file))
-    }
+    },
+    accessModal: function (modal) {
+      dispatch(openModal(modal))
+    } 
   }
 }
 
