@@ -30,14 +30,30 @@ const reducers = (state = {}, action) => {
 
     case 'CREATE_LISTING':
       action.values.owner_id = state.user.id
-      console.log(action.values)
+      action.values.rent = parseInt(action.values.rent)
+      action.values.sqft = parseInt(action.values.sqft)
+      // action.values.img = state.img
+      // console.log(action.values)
       
       fetch('/create', {
-        method: 'POST',
-        body: action.values
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(action.values)
       })
       .then(res => { return res.json() })
-      .then(body => { console.log(body) })
+      .then(body => { 
+        for (let i = 0; i < state.images.length; i++) {
+          fetch('/create/' + body.id + '/' + i, {
+            method: "POST",
+            body: state.images[i]
+          })
+          .then(res => { return res.json() })
+          .then(body => { console.log(body) })
+        }
+      })
 
       return state
       
@@ -54,6 +70,61 @@ const reducers = (state = {}, action) => {
         didInvalidate: false,
         apartments: action.listings,
         lastUpdated: action.receivedAt
+      })
+    
+    case 'ADD_IMAGE':
+      
+      let newImages = state.images.slice(0)
+      newImages.push(action.img)
+
+      return generateState({
+        images: newImages, 
+        imageCount: state.imageCount + 1
+      })
+    
+    case 'LOG_IN':
+
+      return generateState({
+        isFetching: false,
+        isLoggedIn: true,
+        user: {
+          name: action.values.name,
+          id: action.values.id
+        }
+      })
+      
+    case 'LOG_OUT':
+
+      return generateState({
+        isFetching: false,
+        isLoggedIn: false,
+        user: {
+          name: null,
+          id: null
+        }
+      })
+      
+      
+    case 'CREATE_ACCOUNT':  
+      if (action.values.pw == action.values.pw2) {  
+        console.log(action.values)  
+            
+        fetch('/register', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify(action.values)
+        })
+        .then(res => { return res.json() })  
+        .then(body => { console.log(body) })  
+      }
+      return state 
+      
+    case 'SET_MODAL':
+      return generateState({
+        modal: action.modal
       })
     
     default:

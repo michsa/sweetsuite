@@ -1,4 +1,5 @@
 var path = require('path')
+var fs = require('fs')
 var webpack = require('webpack')
 var webpackMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
@@ -16,56 +17,131 @@ var mongoConfig = require('./config')
 
 
 var Apartment = require('./models/apartment')
+var User = require('./models/user')
 var mongoose = require('mongoose')
 
 mongoose.connect(mongoConfig.database)
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+//app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+app.use(bodyParser.raw({type: 'image/png', limit: '50mb'}))
+app.use(bodyParser.raw({type: 'image/jpeg', limit: '50mb'}))
 // parse application/text
-app.use(bodyParser.text())
+//app.use(bodyParser.text())
 
 app.use(webpackMiddleware(webpack(config)))
 app.use(webpackHotMiddleware(webpack(config)))
 
 
+app.post('/create/:id/:i', function(req, res, next) {
+  
+  var img = req.body
+  console.log("-----------\nCREATE IMAGE\n-----------")
+  //console.log(req)
+  console.log(req.get('Content-Type'))
+  console.log(img)
+  console.log(req.params.id)
+  
+  var dir = __dirname + '/' + req.params.id
+  var path = dir + '/' + req.params.i + '.png'
+  
+  fs.writeFile(path, img, 'binary', function(err) {
+    if (err) throw err
+    else {
+      res.send({ success: true, path: path })
+    }
+  })
+
+})
+
+
 app.post('/create', function(req, res, next) {
   
   var values = req.body
+  console.log("-----------\nCREATE LISTING\n-----------")
+  console.log(req.get('Content-Type'))
   console.log(values)
 
   var apartment = new Apartment({
     address: values.address,
     city: values.city,
     state: values.state,
-    zip: values.zip,
+    zip: values.zip, 
     rent: values.rent,
-    square_feet: values.sqft,
-    date_listed: values.date_listed,
-    owner_id: values.owner_id,
-    bedrooms: values.bedrooms,
-    bathrooms: values.bathrooms,
-    floor: 4
+    sqft: values.sqft,
+    beds: values.beds,
+    baths: values.baths,
+    floor: values.floor
+    // img
   })
 
-  apartment.save(function(err) {
+  apartment.save(function(err, apt) {
     if (err) {
       console.log("err: " + err)
-      res.send({message: address + ' add failed' })
+      res.send({success: false, error: err })
     }
-    //apartment.address = "666 dick street"
-    //apartment.save()
-    res.send({ message: address + ' has been added successfully!' })
+    else {
+      var dir = __dirname + '/' + apt._id
+      fs.mkdir(dir, 0744, function(err) {
+        if (err && err.code != 'EEXIST') throw err
+        else {
+          console.log(dir)
+          res.send({ success: true, id: apt._id })
+        }
+      })
+    }
   })
 })
 
 
-app.get('/apartments', function(req, res, next) {
-  Apartment.find(function (err, apts) {
+app.post('/register', function(req, res, next) {  
+
+  var values = req.body  
+  console.log(values)
+  
+  var user = new User({  
+    name: {
+      first: values.first,  
+      last: values.last
+    },
+    email: values.email,  
+    pw: values.pw   
+  })
+  
+  user.save(function(err) {  
+    if (err) {  
+      console.log("err: " + err)  
+      res.send({message: 'add failed' })  
+    }  
+    res.send({ message: 'account has been created successfully!' })  
+  })  
+})
+
+
+app.post('/login', function(req, res, next) {  
+  var values = req.body  
+  // console.log(values)  
+  
+  User.findOne({email: values.email}, function (err, user) {  
     if (err) return console.error(err)
-    console.log(apts)
+    console.log("USER:")
+    console.log(user)
+    user.comparePassword(values.pw, function(err, isMatch) {  
+      if (err) throw err;  
+      console.log("user valid")
+      return res.json({id: user._id, name: user.name.first})
+    })
+  })
+}) 
+
+
+app.get('/apartments', function(req, res, next) {
+  Apartment.find({floor: 1}, (err, apts) => {
+    if (err) return console.error(err)
+    // console.log("apts")
+    // console.log(apts)
     res.json(apts)
   })
 })

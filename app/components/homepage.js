@@ -13,10 +13,10 @@ import {fetchListings} from '../actions'
 const HomepageComponent = ({test, apartments, loadApts}) => {
   return (
       <div id="home" className="noheader">
-        <div className="title"></div>      
+        <div className="title"></div>
+        <div className="banner"><img href="../app/img_slide1.png"/></div> 
         <div className="content">
           <span onClick={loadApts}>Test getting data from express</span>
-          <span>Test: {test}</span>
           <ApartmentsListContainer/>
         </div>
       </div>

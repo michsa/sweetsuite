@@ -3,6 +3,7 @@ import React from 'react'
 import HeaderContainer from './header'
 import FooterComponent from './footer'
 import BodyContainer from './body'
+import ModalContainer from './modal'
 
 import {connect} from 'react-redux'
 import {readKey} from '../actions'
@@ -14,12 +15,14 @@ import {readKey} from '../actions'
 
 const AppComponent = () => { 
   return (
-    <div id="app" >
+    <div id="app">
       <HeaderContainer/>
       <div id="scroll">
         <BodyContainer/>
         <FooterComponent/>
       </div>
+      
+      <ModalContainer/>
     </div>
   )
 }

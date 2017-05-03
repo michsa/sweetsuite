@@ -7,6 +7,12 @@ export const createListing = (object) => {
   }
 }
 
+export const latestApartments = () => {
+  return {
+    type: 'LATEST_APARTMENTS'
+  }
+}
+
 export const requestListings = (page) => {
   return {
     type: 'REQUEST_LISTINGS',
@@ -54,9 +60,22 @@ export const fetchListings = (page) => {
       console.log("json")
       console.log(json)
       
-      // We can dispatch many times!
-      // Here, we update the app state with the results of the API call.
-
+      for (let i = 0; i < json.length; i++) {
+        if (json[i].img) {
+          return fetch('/apartments/img', {
+            method: 'GET',
+            body: json[i]._id
+          })
+          .then(res => { return res.blob() })
+          .then(blob => { 
+            console.log(blob)
+            
+            dispatch(receiveListingImages(page, blobs))
+          })
+        }
+        
+      }
+      
       dispatch(receiveListings(page, json))
     })
   }
@@ -66,68 +85,5 @@ export const addImage = (file) => {
   return {
     type: 'ADD_IMAGE',
     img: file
-  }
-}
-
-export const createAccount = (object) => {
-  return {
-    type: 'CREATE_ACCOUNT',
-    values: object
-  }
-}
-
-export const logIn = (values) => {
-  return function (dispatch) {
-
-    return fetch('/login', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify(values)
-    })
-    .then(res => { return res.json() })  
-    .then(json => { 
-      console.log(json)
-      dispatch(fulfillLogIn(json))
-    })
-  }
-}
-
-export const fulfillLogIn = (object) => {
-  return {
-    type: 'LOG_IN',
-    values: object
-  }
-}
-
-export const logOut = (object) => {
-  return {
-    type: 'LOG_OUT',
-    values: object
-  }
-}
-
-export const openModal = (object) => {
-  return {
-    type: 'SET_MODAL',
-    modal: object
-  }
-}
-
-export const closeModal = () => {
-  return {
-    type: 'SET_MODAL',
-    modal: null
-  }
-}
-
-
-
-export const register = (object) => {
-  return {
-    type: 'CREATE_ACCOUNT',
-    values: object
   }
 }

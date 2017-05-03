@@ -25,15 +25,17 @@ localStorage.setItem('settings', JSON.stringify({
 
 var defaultState = {
   app: {
+    isLoggedIn: false,
     user: {
-      name: "John",
-      id: 1
+      name: null,
+      id: null
     },
     currentPage: null,
     isFetching: false,
     didInvalidate: false,
     lastUpdated: null,
-    apartments: []
+    apartments: [],
+    images: []
   },
   form: {}
 }

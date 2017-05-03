@@ -1,15 +1,16 @@
 import React from 'react'
+import Image from 'react-image-file'
 
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
-import { createListing } from '../actions'
+import { createListing, addImage } from '../actions'
 
 /* ----------- *
  *  COMPONENT  *
  * ----------- */
  
-const CreateListingComponent = ({handleSubmit, submit}) => {
+const CreateListingComponent = ({handleSubmit, submit, uploadImage, images}) => {
   return (
       <div id="create" className="create-listing">
         <div className="title">Add New Apartment Listing</div>      
@@ -51,9 +52,18 @@ const CreateListingComponent = ({handleSubmit, submit}) => {
               <Field component='select' name="bathrooms">
                 {[...Array(9)].map((x, i) => <option value={i+1} key={i+1}>{i+1}</option> )}
               </Field>
-            </div>  
+            </div>
+            <div className="img" >
+              <input type="file" name="img" onChange={uploadImage} />
+            </div>
             <button type='submit' className='btn'>Submit</button>
           </form>
+          
+          <div className="images">
+              { images.map ((img, index, images) =>
+                <Image file={img} alt='some text' key={index}/>
+              )}
+          </div>
         </div>
       </div>
   )
@@ -66,7 +76,9 @@ const CreateListingComponent = ({handleSubmit, submit}) => {
 
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  return {
+    images: state.app.images
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -74,6 +86,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     submit: function (values) {
       values.date_listed = Date.now()
       dispatch(createListing(values))
+    },
+    uploadImage: function (event) {
+      let file = event.target.files[0]
+      dispatch(addImage(file))
     }
   }
 }
