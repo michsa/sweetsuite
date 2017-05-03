@@ -20,7 +20,7 @@ const ApartmentsListComponent = ({apartments}) => {
   )
 }
 
-const ListItem = function ({apt}) {
+const ListItem = function ({apt, key}) {
   
   return (
       <li className="apartments-item" >
@@ -44,7 +44,7 @@ const ListItem = function ({apt}) {
         
         <div className="images">
           { Object.keys(apt.images).map(img =>
-            <div className="img-holder"><img src={apt.images[img]} key={img} /></div>
+            <div className="img-holder"><img src={apt.images[img]} key={key} /></div>
           )}
         </div> 
       </li>

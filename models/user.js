@@ -9,8 +9,8 @@ var userSchema = new mongoose.Schema({
     first: String,   
     last: String 
   },    
-  email: {type: String, unique: true},
-  pw: String,
+  email: {type: String, required: true, index: { unique: true } },
+  pw: { type: String, required: true },
   favorites: [String]
 })
   
@@ -35,14 +35,12 @@ userSchema.pre('save', function(next) {
     });  
 });  
 
-userSchema.plugin(uniqueValidator);
-  
-
 userSchema.methods.comparePassword = function(candidatePassword, cb) {  
     bcrypt.compare(candidatePassword, this.pw, function(err, isMatch) {  
         if (err) return cb(err);  
         cb(null, isMatch);  
     });  
 };  
-  
+
+
 module.exports = mongoose.model('User', userSchema);

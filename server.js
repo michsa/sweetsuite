@@ -126,15 +126,11 @@ app.post('/login', function(req, res, next) {
       res.send({ success: false, error: err })
     else if (!user)
       res.send({ success: false, error: "Error: account not found." })
-    else user.comparePassword(values.pw, function(err, isMatch) {  
-      if (err)
-        return res.json({ success: false, error: err })
-      else if (!isMatch)
+    else if (user.pw !== values.pw)
         return res.json({ success: false, message: "Error: password did not match." })
-      else return res.json({success: true, id: user._id, name: user.name.first})
-    })
+    else return res.json({success: true, id: user._id, name: user.name.first})
   })
-}) 
+})
 
 
 app.get('/apartments', function(req, res, next) {
