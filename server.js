@@ -26,8 +26,8 @@ mongoose.connect(mongoConfig.database)
 //app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-app.use(bodyParser.raw({type: 'image/png', limit: '50mb'}))
-app.use(bodyParser.raw({type: 'image/jpeg', limit: '50mb'}))
+app.use(bodyParser.raw({type: 'image/png', limit: '500mb'}))
+app.use(bodyParser.raw({type: 'image/jpeg', limit: '500mb'}))
 // parse application/text
 //app.use(bodyParser.text())
 

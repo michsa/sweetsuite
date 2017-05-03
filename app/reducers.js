@@ -66,15 +66,7 @@ const reducers = (state = {}, action) => {
       
     case 'RECEIVE_LISTINGS':
       var context = require.context('url-loader!./img/', true, /\d[\.(png|jpg)]*$/)
-      /*
-      var files = {}
-      
-      context.keys().forEach((filename) => {
-        files[filename] = context(filename)
-      })
-      
-      console.log(files)
-      */
+
       action.listings.forEach(apt => {
         if (apt.imgct) {
           apt.images = {}

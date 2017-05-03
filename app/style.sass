@@ -90,6 +90,10 @@ ul, li
   display: inline-block
   background-size: 100% 100%
  
+.banner img
+  width: 100%
+  display: block
+ 
 body
   background: $bg2 
 
@@ -126,11 +130,62 @@ body
       height: 5px
       background: $green
       margin-top: -5px
-  
-.apartments-item
-  display: block
-  margin: 1em auto
-  
+      
+#apartments 
+  margin: -50px
+  ul, .list-item
+    width: 100%
+  .apartments-item
+    display: block
+    margin: 1em auto
+    width: 100%
+    padding-bottom: 10px
+    padding-top: 5px
+    .green
+      background: $green
+      min-height: 120px
+      color: $bg
+      display: table
+      width: 100%
+    .rooms
+      display: table-cell
+      text-align: right
+      vertical-align: middle
+      width: 200px
+      padding-right: 15px
+      div
+        font-size: 18px
+        font-weight: bold
+    .rent
+      display: table-cell
+      text-align: left
+      vertical-align: middle
+      width: 200px
+      padding-left: 15px
+      font-size: 26px
+      font-weight: bold
+    .address
+      display: table-cell
+      margin: 0 auto
+      text-align: center
+      vertical-align: middle
+      div
+        font-size: 22px
+        font-weight: bold
+    .images
+      margin: 15px 2%
+      min-height: 300px
+      .img-holder
+        width: 48%
+        margin: 10px 1%
+        max-height: 300px
+        overflow: hidden
+      img
+        min-width: 100%
+        min-height: 100%
+        background-size: cover
+        background-position: center
+
 #create
   text-align: center
   form div
