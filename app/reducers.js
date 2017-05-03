@@ -32,8 +32,9 @@ const reducers = (state = {}, action) => {
       action.values.owner_id = state.user.id
       action.values.rent = parseInt(action.values.rent)
       action.values.sqft = parseInt(action.values.sqft)
-      // action.values.img = state.img
-      // console.log(action.values)
+      action.values.imgct = state.images.length
+      
+      console.log(action.values.imgct)
       
       fetch('/create', {
         headers: {
@@ -64,6 +65,30 @@ const reducers = (state = {}, action) => {
       })
       
     case 'RECEIVE_LISTINGS':
+      var context = require.context('url-loader!./img/', true, /\d[\.(png|jpg)]*$/)
+      /*
+      var files = {}
+      
+      context.keys().forEach((filename) => {
+        files[filename] = context(filename)
+      })
+      
+      console.log(files)
+      */
+      action.listings.forEach(apt => {
+        if (apt.imgct) {
+          apt.images = {}
+          var i = 0
+          context.keys().forEach((filename) => {
+            if (filename.includes(apt._id)) {
+              apt.images[filename] = context(filename)
+              i++
+            }
+            if (i == apt.imgct) return 
+          })
+        }
+      })
+
       return generateState({
         currentPage: action.page,
         isFetching: false,
@@ -73,10 +98,10 @@ const reducers = (state = {}, action) => {
       })
     
     case 'ADD_IMAGE':
-      
+      console.log(action.img)
       let newImages = state.images.slice(0)
       newImages.push(action.img)
-
+      
       return generateState({
         images: newImages, 
         imageCount: state.imageCount + 1

@@ -38,14 +38,10 @@ app.use(webpackHotMiddleware(webpack(config)))
 app.post('/create/:id/:i', function(req, res, next) {
   
   var img = req.body
-  console.log("-----------\nCREATE IMAGE\n-----------")
-  //console.log(req)
-  console.log(req.get('Content-Type'))
-  console.log(img)
-  console.log(req.params.id)
+  var type = req.get('Content-Type')
   
-  var dir = __dirname + '/' + req.params.id
-  var path = dir + '/' + req.params.i + '.png'
+  var dir = './app/img/' + req.params.id
+  var path = dir + '/' + req.params.i
   
   fs.writeFile(path, img, 'binary', function(err) {
     if (err) throw err
@@ -73,8 +69,8 @@ app.post('/create', function(req, res, next) {
     sqft: values.sqft,
     beds: values.beds,
     baths: values.baths,
-    floor: values.floor
-    // img
+    floor: values.floor,
+    imgct: values.imgct
   })
 
   apartment.save(function(err, apt) {
@@ -83,7 +79,7 @@ app.post('/create', function(req, res, next) {
       res.send({success: false, error: err })
     }
     else {
-      var dir = __dirname + '/' + apt._id
+      var dir = path.join("./app/img/", apt._id.toString())
       fs.mkdir(dir, 0744, function(err) {
         if (err && err.code != 'EEXIST') throw err
         else {
@@ -138,11 +134,9 @@ app.post('/login', function(req, res, next) {
 
 
 app.get('/apartments', function(req, res, next) {
-  Apartment.find({floor: 1}, (err, apts) => {
+  Apartment.find({imgct: {$gt: 0}}, (err, apts) => {
     if (err) return console.error(err)
-    // console.log("apts")
-    // console.log(apts)
-    res.json(apts)
+    else res.json(apts)
   })
 })
 

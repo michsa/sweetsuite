@@ -10,7 +10,8 @@ var apartmentSchema = new mongoose.Schema({
   beds: { type: Number, default: 2 },
   baths: { type: Number, default: 2 },
   floor: { type: Number, default: 1 },
-  img: { data: Buffer, contentType: String }
+  imgct: {type: Number, default: 0 }
+  //images: [{ data: Buffer, contentType: String }]
 })
 
 module.exports = mongoose.model('Apartment', apartmentSchema)

@@ -4,6 +4,7 @@ import Image from 'react-image-file'
 import { connect } from 'react-redux'
 import {removeFavorite} from '../actions'
 
+const testimg = require("url-loader!../img/5909ca54a29b48798332ef12/0")
 
 /* ----------- *
  *  COMPONENT  *
@@ -24,7 +25,8 @@ const ApartmentsListComponent = ({apartments}) => {
   )
 }
 
-const ListItem = ({apt}) => {
+const ListItem = function ({apt}) {
+  
   return (
       <div className="list-item">
         <div className="address">
@@ -39,12 +41,11 @@ const ListItem = ({apt}) => {
           <div className="floor">Floor: {apt.floor}</div>
         </div>
         
-        { apt.img ? 
-            <div className="images">
-              <Image alt='some text'/>
-            </div> 
-            : <div>No images</div> 
-        }
+        <div className="images">
+          { Object.keys(apt.images).map(img =>
+            <Image file={apt.images[img]} key={apt._id.toString() + img.toString()} />
+          )}
+        </div>
         
       </div>
   )
@@ -54,23 +55,7 @@ const ListItem = ({apt}) => {
  *  CONTAINER  *
  * ----------- */
 
-const mapStateToProps = (state, ownProps) => {
-  
-  let apts = state.app.apartments
-  for (let i = 0; i < apts.length; i++) {
-    if (apts[i].img) {
-      console.log("apt img")
-      console.log(apts[i].img.data)
-      
-      var binaryData = []
-      binaryData.push(apts[i].img.data)
-      var blob = new Blob(apts[i].img.data.data, {type: "image/png"})
-      
-      console.log("blob:")
-      console.log(blob)
-    }
-  }
-  
+const mapStateToProps = (state, ownProps) => { 
   return {
     apartments: state.app.apartments
   }
