@@ -97,22 +97,31 @@ app.post('/register', function(req, res, next) {
   var values = req.body  
   console.log(values)
   
-  var user = new User({  
-    name: {
-      first: values.first,  
-      last: values.last
-    },
-    email: values.email,  
-    pw: values.pw   
+  User.find({email: values.email}, function(err, user) {
+      if (user.length > 0){
+          console.log("err: email already exists")
+      }
+      else {
+          console.log("email not taken")
+          console.log(User.find({email: values.email}, {_id: 1}).length)
+          var user = new User({  
+            name: {
+              first: values.first,  
+              last: values.last
+            },
+            email: values.email,  
+            pw: values.pw   
+          })
+
+          user.save(function(err) {  
+            if (err) {  
+              console.log("err: " + err)  
+              res.send({message: 'add failed' })  
+            }  
+            res.send({ message: 'account has been created successfully!' })  
+          })
+      }
   })
-  
-  user.save(function(err) {  
-    if (err) {  
-      console.log("err: " + err)  
-      res.send({message: 'add failed' })  
-    }  
-    res.send({ message: 'account has been created successfully!' })  
-  })  
 })
 
 
