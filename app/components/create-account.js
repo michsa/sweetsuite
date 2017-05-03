@@ -10,11 +10,12 @@ import { createAccount, closeModal } from '../actions'
  *  COMPONENT  * 
  * ----------- */  
    
-const CreateAccountComponent = ({handleSubmit, submit}) => {  
+const CreateAccountComponent = ({handleSubmit, submit, error}) => {  
   return (  
       <div id="register" className="create-account">  
         <div className="title">Sign Up</div>        
-        <div className="content">  
+        <div className="content">
+          <div className="error">{ error }</div>
           <form onSubmit={handleSubmit(submit)}>  
             <div className="first">
               <Field component='input' type='text' name="first" placeholder="First Name"/>  
@@ -26,10 +27,10 @@ const CreateAccountComponent = ({handleSubmit, submit}) => {
               <Field component='input' type='text' name="email" placeholder="Email Address"/>  
             </div>  
             <div className="password">  
-              <Field component='input' type='text' name="pw" placeholder="Password"/>  
+              <Field component='input' type='password' name="pw" placeholder="Password"/>  
             </div>  
             <div className="password2">
-              <Field component='input' type='text' name="pw2" placeholder="Confirm Password"/>  
+              <Field component='input' type='password' name="pw2" placeholder="Confirm Password"/>  
             </div>
             <button type='submit' className='btn'>Sign Up</button>
           </form>
@@ -43,15 +44,16 @@ const CreateAccountComponent = ({handleSubmit, submit}) => {
  *  CONTAINER  * 
  * ----------- */  
   
-  
+
 const mapStateToProps = (state, ownProps) => {  
-  return {}  
+  return {
+    error: state.app.error
+  }  
 }  
   
 const mapDispatchToProps = (dispatch, ownProps) => {  
   return {  
     submit: function (values) {
-      dispatch(closeModal())
       dispatch(createAccount(values))  
     }  
   }  

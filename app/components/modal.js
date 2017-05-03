@@ -35,7 +35,8 @@ const ModalComponent = ({modal, close}) => {
   
 const mapStateToProps = (state, ownProps) => {  
   return {
-    modal: state.app.modal
+    modal: state.app.modal,
+    error: state.app.error
   }  
 }  
   

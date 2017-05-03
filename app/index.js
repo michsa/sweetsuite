@@ -35,7 +35,8 @@ var defaultState = {
     didInvalidate: false,
     lastUpdated: null,
     apartments: [],
-    images: []
+    images: [],
+    error: null
   },
   form: {}
 }

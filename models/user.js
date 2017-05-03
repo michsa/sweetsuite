@@ -1,5 +1,6 @@
-var mongoose = require('mongoose')    
+var mongoose = require('mongoose')
 var Schema = mongoose.Schema
+var uniqueValidator = require('mongoose-unique-validator')
 var bcrypt = require('bcrypt') 
 var SALT_WORK_FACTOR = 10
   
@@ -33,6 +34,8 @@ userSchema.pre('save', function(next) {
         });  
     });  
 });  
+
+userSchema.plugin(uniqueValidator);
   
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {  

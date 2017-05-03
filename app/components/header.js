@@ -1,7 +1,7 @@
 import React from 'react'
 
-import logo from "../title_small.png"
-import menu from "../menu.png"
+import logo from "../img/title_small.png"
+import menu from "../img/menu.png"
 
 import {connect} from 'react-redux'
 import {logOut, openModal} from '../actions'

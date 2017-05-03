@@ -69,13 +69,6 @@ export const addImage = (file) => {
   }
 }
 
-export const createAccount = (object) => {
-  return {
-    type: 'CREATE_ACCOUNT',
-    values: object
-  }
-}
-
 export const logIn = (values) => {
   return function (dispatch) {
 
@@ -89,15 +82,25 @@ export const logIn = (values) => {
     })
     .then(res => { return res.json() })  
     .then(json => { 
-      console.log(json)
-      dispatch(fulfillLogIn(json))
+      if (json.success) {
+        dispatch(closeModal())
+        dispatch(logInSuccess(json))
+      }
+      else dispatch(logInFailure(json))
     })
   }
 }
 
-export const fulfillLogIn = (object) => {
+export const logInSuccess = (object) => {
   return {
-    type: 'LOG_IN',
+    type: 'LOG_IN_SUCCESS',
+    values: object
+  }
+}
+
+export const logInFailure = (object) => {
+  return {
+    type: 'LOG_IN_FAILURE',
     values: object
   }
 }
@@ -123,11 +126,46 @@ export const closeModal = () => {
   }
 }
 
+export const createAccount = (values) => {
+  return function (dispatch) {
 
+    if (values.pw != values.pw2) {  
+      dispatch(fulfillRegister({success: false, message: "Error: passwords did not match."}))
+      return
+    }
+    else {
+      console.log(values)  
 
-export const register = (object) => {
+      return fetch('/register', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(values)
+      })
+      .then(res => { return res.json() })  
+      .then(json => { 
+        if (json.success) {
+          dispatch(closeModal())
+          dispatch(registerSuccess(json))
+        }
+        else dispatch(registerFailure(json))
+      })
+    }
+  }
+}
+
+export const registerSuccess = (object) => {
   return {
-    type: 'CREATE_ACCOUNT',
+    type: 'REGISTER_SUCCESS',
+    values: object
+  }
+}
+
+export const registerFailure = (object) => {
+  return {
+    type: 'REGISTER_FAILURE',
     values: object
   }
 }

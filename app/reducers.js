@@ -99,8 +99,7 @@ const reducers = (state = {}, action) => {
         imageCount: state.imageCount + 1
       })
     
-    case 'LOG_IN':
-
+    case 'LOG_IN_SUCCESS':
       return generateState({
         isFetching: false,
         isLoggedIn: true,
@@ -110,8 +109,16 @@ const reducers = (state = {}, action) => {
         }
       })
       
+    case 'LOG_IN_FAILURE':
+      var error = action.values.message || action.values.error
+        
+      return generateState({
+          isFetching: false,
+          isLoggedIn: false,
+          error: error
+        })
+        
     case 'LOG_OUT':
-
       return generateState({
         isFetching: false,
         isLoggedIn: false,
@@ -121,27 +128,29 @@ const reducers = (state = {}, action) => {
         }
       })
       
-      
-    case 'CREATE_ACCOUNT':  
-      if (action.values.pw == action.values.pw2) {  
-        console.log(action.values)  
-            
-        fetch('/register', {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: "POST",
-          body: JSON.stringify(action.values)
+    case 'REGISTER_SUCCESS':  
+      return generateState({
+        isFetching: false,
+        isLoggedIn: true,
+        user: {
+          name: action.values.name,
+          id: action.values.id
+        }
+      })
+    
+    case 'REGISTER_FAILURE':
+      var error = action.values.message || action.values.error
+        
+      return generateState({
+          isFetching: false,
+          isLoggedIn: false,
+          error: error
         })
-        .then(res => { return res.json() })  
-        .then(body => { console.log(body) })  
-      }
-      return state 
       
     case 'SET_MODAL':
       return generateState({
-        modal: action.modal
+        modal: action.modal,
+        error: null
       })
     
     default:

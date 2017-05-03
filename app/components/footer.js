@@ -1,5 +1,5 @@
 import React from 'react'
-var logo =  require("../title_small_white.png")
+var logo = require("../img/title_small_white.png")
 
 const FooterComponent = () => {
 

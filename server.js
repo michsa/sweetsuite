@@ -21,6 +21,7 @@ var User = require('./models/user')
 var mongoose = require('mongoose')
 
 mongoose.connect(mongoConfig.database)
+mongoose.connection.on('error', (err) => { console.log(err) })
 
 // parse application/x-www-form-urlencoded
 //app.use(bodyParser.urlencoded({ extended: false }))
@@ -49,7 +50,6 @@ app.post('/create/:id/:i', function(req, res, next) {
       res.send({ success: true, path: path })
     }
   })
-
 })
 
 
@@ -106,28 +106,32 @@ app.post('/register', function(req, res, next) {
     pw: values.pw   
   })
   
-  user.save(function(err) {  
-    if (err) {  
-      console.log("err: " + err)  
-      res.send({message: 'add failed' })  
+  user.save(function(err, usr) {  
+    if (err) {
+      if (err.name == "ValidationError")
+        res.send({success: false, message: "Error: email address already in use." })
+      else
+        res.send({success: false, error: err })  
     }  
-    res.send({ message: 'account has been created successfully!' })  
+    else res.send({ success: true, id: usr._id, name: usr.name.first })
   })  
 })
 
 
 app.post('/login', function(req, res, next) {  
   var values = req.body  
-  // console.log(values)  
   
   User.findOne({email: values.email}, function (err, user) {  
-    if (err) return console.error(err)
-    console.log("USER:")
-    console.log(user)
-    user.comparePassword(values.pw, function(err, isMatch) {  
-      if (err) throw err;  
-      console.log("user valid")
-      return res.json({id: user._id, name: user.name.first})
+    if (err)
+      res.send({ success: false, error: err })
+    else if (!user)
+      res.send({ success: false, error: "Error: account not found." })
+    else user.comparePassword(values.pw, function(err, isMatch) {  
+      if (err)
+        return res.json({ success: false, error: err })
+      else if (!isMatch)
+        return res.json({ success: false, message: "Error: password did not match." })
+      else return res.json({success: true, id: user._id, name: user.name.first})
     })
   })
 }) 

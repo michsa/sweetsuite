@@ -23,6 +23,7 @@
     "express": "^4.15.2",
     "file-loader": "^0.11.1",
     "isomorphic-fetch": "^2.2.1",
+    "mongoose-unique-validator": "^1.0.5",
     "node-sass": "^4.5.2",
     "raw-loader": "^0.5.1",
     "react-image": "^1.0.1",
