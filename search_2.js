@@ -13,25 +13,21 @@ import { searchListings } from '../actions'
 const SearchComponent = ({handleSubmit, submit, accessModal}) => {
   return (
       <div id="search" className="search-listings">
-        <div className="title green">Search Apartment Listings</div>      
+        <div className="title">Add New Apartment Listing</div>      
         <div className="content">
           <form onSubmit={handleSubmit(submit)}>
             <div className="nearby">
-              <label>Location:</label>
-              <Field component='input' type='text' name="city" placeholder="Boca Raton, FL"/>
+              <Field component='input' type='text' name="city" placeholder="City"/>
             </div>
             <div className="rent">  
-              <label>Cost:</label>
+              <label>Rent:</label>
               <span className="dollar">$</span>
-              <Field component='input' type='text' name="rent-low" placeholder="Low" className="low" />
-              <span className="space">-</span>
-              <Field component='input' type='text' name="rent-high" placeholder="High" className="high" />
+              <Field component='input' type='text' name="rent" placeholder="Low" className="low" /> - 
+              <Field component='input' type='text' name="rent" placeholder="High" className="high" />
             </div>
             <div className="sqft">  
-              <label>Sq. Feet:</label>
-              <Field component='input' type='text' name="sqft-low" placeholder="Min"  className="low" />
-              <span className="space">-</span>
-              <Field component='input' type='text' name="sqft-high" placeholder="Max"  className="high" />
+              <label>Square Footage:</label>
+              <Field component='input' type='text' name="sqft" placeholder="873" />
             </div>
             <div className="bedrooms">   
               <label>Bedrooms:</label>

@@ -10,7 +10,7 @@ import { logIn, closeModal } from '../actions'
 /* ----------- *
  *  COMPONENT  *
  * ----------- */
- 
+
 const SuccessComponent = ({handleSubmit, submit}) => {
   return (
       <div id="create" className="create-listing">

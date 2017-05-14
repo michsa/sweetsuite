@@ -90,7 +90,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     uploadImage: function (event) {
       let file = event.target.files[0]
-      dispatch(addImage(file))
+      if (file) dispatch(addImage(file))
     },
     accessModal: function (modal) {
       dispatch(openModal(modal))

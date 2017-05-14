@@ -2,6 +2,7 @@ import React from 'react'
 import {Router, Route, Switch} from 'react-router'
 
 import HomePageContainer from './homepage'
+import SearchForm from './search'
 import CreateListingForm from './create-listing'
 
 import createBrowserHistory from 'history/createBrowserHistory'
@@ -19,6 +20,7 @@ const BodyComponent = ({page}) => {
       <Router history={history}>
         <Switch>
           <Route path='/create' component={CreateListingForm} />
+          <Route path='/search' component={SearchForm} />
           <Route path='/' component={HomePageContainer} />
         </Switch>
       </Router>                                               

@@ -123,8 +123,6 @@ body
     color: $bg  
     position: absolute
     margin-top: -50px
-    &.green
-      background: $green
   .noheader
     .content
       margin-top: 5px
@@ -192,8 +190,8 @@ body
 #create
   text-align: center
   form div
-    display: block
-    width: 405px
+    display: inline-block
+    max-width: 150px
     text-align: left
     margin: 0 auto
     padding: 10px 0
@@ -232,59 +230,30 @@ body
     display: block
     margin: 0 auto
     margin-top: 40px
-    
+
 #search
-  form
-    width: 420px 
-    text-align: center
-    margin: 0 auto
-    div
-      text-align: left
-      margin: 0 auto
-      padding: 10px 0
-      label
-        color: $green
-        display: inline-block
-        width: 100px
-      input
-        border: 0
-        width: 150px
-        text-align: center
-        background: $bg2
-        padding: 6px 12px
-        border-radius: 2px
-      &.nearby input
-        width: 315px
-      select
-        border: 0
-        background: $bg2
-        min-width: 50px
-        padding: 2px
-        border-radius: 2px
-      .dollar
-        display: inline-block
-        color: #666
-        width: 10px
-        position: relative
-        left: 9px
-      &.rent input
-        margin-left: -10px
-        padding-left: 14px
-        &.high
-          margin-left: 0
-          padding-left: 0
-      &.bedrooms, &.bathrooms
-        display: inline-block
-        padding-top: 20px
-        width: 50%
-      .space
-        width: 15px
-        text-align: center
-        display: inline-block
-    button
-      display: block
-      margin: 0 auto
-      margin-top: 40px
+  .title
+    margin-top: 0
+  .content
+    padding: 0
+    width: 100%
+    position: absolute
+    max-width: 100%
+    min-height: 0
+    height: 80px
+    background: $bg2
+  form div
+    display: inline-block
+    line-height: 80px
+    max-width: initial
+    &.rent input
+      width: 120px
+    input
+      border: 0
+      border-bottom: 2px solid $green
+      padding: 2px
+      max-width: 100px
+      background: $bg
     
 .images > div
   min-width: 100px
